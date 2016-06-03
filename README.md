@@ -15,7 +15,7 @@ allprojects {
 Add the dependency
 ```groovy
 dependencies {
-        compile 'com.wscheffer.SnapListUtil:v0.0.2:SNAPSHOT'
+        compile 'com.wscheffer.SnapListUtil:v0.0.1'
 }
 ```
 
