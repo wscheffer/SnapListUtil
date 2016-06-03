@@ -6,6 +6,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.widget.AbsListView;
+import android.widget.ListView;
 
 /**
  * Created by wsche on 2016/06/03.
@@ -76,6 +78,58 @@ public class SnapListUtil {
 
                     }
                 });
+        }
+    }
+
+    public static void addSnapLayoutManager(ListView listView, LayoutManagerType layoutManagerType, int orientation, boolean reversed) {
+        switch (layoutManagerType) {
+            case LINEAR:
+
+                listView.setOnScrollListener(new ListView.OnScrollListener() {
+                    Direction direction = Direction.DOWN;
+                    private int mLastFirstVisibleItem = 0;
+
+                    @Override
+                    public void onScrollStateChanged(AbsListView view, int scrollState) {
+                        switch (scrollState) {
+                            case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+                            case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+                                // ((SmoothLinearLayoutManager) recyclerView.getLayoutManager()).setMPI(25f);
+                                break;
+                            case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+
+                                //layoutManager.setMPI(150f);
+                                //if (layoutManager.findFirstCompletelyVisibleItemPosition() != layoutManager.findFirstVisibleItemPosition()) {
+
+                                switch (direction) {
+                                    case DOWN:
+
+                                        view.smoothScrollToPosition(view.getLastVisiblePosition());
+                                        break;
+                                    case UP:
+                                        view.smoothScrollToPosition(view.getFirstVisiblePosition());
+                                        break;
+                                }
+                                //}
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                        if (mLastFirstVisibleItem < firstVisibleItem) {
+                            // Recycle view scrolling down...
+                            direction = Direction.DOWN;
+                        }
+                        if (mLastFirstVisibleItem > firstVisibleItem) {
+                            // Recycle view scrolling up...
+                            direction = Direction.UP;
+                        }
+                        mLastFirstVisibleItem = firstVisibleItem;
+                    }
+
+                });
+                break;
         }
     }
 
