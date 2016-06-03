@@ -19,7 +19,7 @@ dependencies {
 }
 ```
 
-#Use it create RecyclerAdapter
+#Use it link up Snap Layout Manager
 
 ```java
 public class MainActity extends Activity { 
