@@ -84,7 +84,6 @@ public class SnapListUtil {
     public static void addSnapLayoutManager(ListView listView, LayoutManagerType layoutManagerType, int orientation, boolean reversed) {
         switch (layoutManagerType) {
             case LINEAR:
-
                 listView.setOnScrollListener(new ListView.OnScrollListener() {
                     Direction direction = Direction.DOWN;
                     private int mLastFirstVisibleItem = 0;
@@ -103,7 +102,6 @@ public class SnapListUtil {
 
                                 switch (direction) {
                                     case DOWN:
-
                                         view.smoothScrollToPosition(view.getLastVisiblePosition());
                                         break;
                                     case UP:
