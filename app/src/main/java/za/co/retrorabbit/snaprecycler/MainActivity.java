@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
+    private ListView listview;
+    private ListAdapter adapterList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +34,17 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         if (recyclerView != null) {
             recyclerView.setHasFixedSize(true);
-            recyclerView.setAdapter(getAdapter());
+            recyclerView.setAdapter(getAdapterRecycler());
             recyclerView.getAdapter().notifyDataSetChanged();
             SnapListUtil.addSnapLayoutManager(recyclerView, SnapListUtil.LayoutManagerType.LINEAR, RecyclerView.VERTICAL, false);
         }
+
+        listview = (ListView) findViewById(R.id.listview);
+        if (listview != null) {
+            listview.setAdapter(getAdapterList());
+            SnapListUtil.addSnapLayoutManager(listview, SnapListUtil.LayoutManagerType.LINEAR, RecyclerView.VERTICAL, false);
+        }
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if (fab != null)
             fab.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public ThingRecyclerAdapter getAdapter() {
+    public ThingRecyclerAdapter getAdapterRecycler() {
         return new ThingRecyclerAdapter(getThings());
     }
 
@@ -77,5 +88,9 @@ public class MainActivity extends AppCompatActivity {
             list.add(new Thing(i, android.R.drawable.btn_default, "Thing " + i));
         }
         return list;
+    }
+
+    public ListAdapter getAdapterList() {
+        return new ThingListAdapter(this,R.layout.list_item,getThings());
     }
 }
